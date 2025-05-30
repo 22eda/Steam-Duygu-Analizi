@@ -41,7 +41,7 @@ Veri setine buradan ulaşabilirsiniz:
 ![image](https://github.com/user-attachments/assets/c82b0c4d-d828-4300-b05f-9ce225ae5009)
 
 ## ✅ Sonuç
-Analiz sonucunda, kullanıcı yorumlarının büyük kısmı olumlu eğilim göstermektedir.  
+Analiz sonucunda, kullanıcı yorumlarının büyük kısmı nötr eğilim göstermektedir.  
 Bu çalışma, oyun geliştiricileri için kullanıcı geri bildirimlerini anlamada yol gösterici olabilir.
 
 ## 👩‍💻 Geliştiren
