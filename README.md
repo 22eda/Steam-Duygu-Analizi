@@ -8,7 +8,7 @@ Amaç, metin madenciliği teknikleriyle kullanıcı yorumlarının duygu yönün
 Veriler, Steam'den toplanan yorumlardan oluşmaktadır.  
 Kullanıcı adları ve kimlik bilgileri çıkarılmıştır.  
 Veri setine buradan ulaşabilirsiniz:  
-[Steam Yorumları Excel Dosyası (Temizlenmiş)](https://docs.google.com/spreadsheets/d/1va6G1xXhSAnriBd-QzRyLwc1ECkMQ4sz/edit?usp=drive_link)
+[Steam Yorumları Excel Dosyası](https://docs.google.com/spreadsheets/d/1va6G1xXhSAnriBd-QzRyLwc1ECkMQ4sz/edit?usp=drive_link)
 
 ## 🛠️ Kullanılan Teknolojiler ve Kütüphaneler
 - R dili
