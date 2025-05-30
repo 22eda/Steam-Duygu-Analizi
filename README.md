@@ -45,6 +45,6 @@ Analiz sonucunda, kullanıcı yorumlarının büyük kısmı nötr eğilim göst
 Bu çalışma, oyun geliştiricileri için kullanıcı geri bildirimlerini anlamada yol gösterici olabilir.
 
 ## 👩‍💻 Geliştiren
-[Eda](https://github.com/eda22)  
+[Eda](https://github.com/22eda)  
 İstatistik ve Bilgisayar Bilimleri Öğrencisi  
 Bilecik Şeyh Edebali Üniversitesi
