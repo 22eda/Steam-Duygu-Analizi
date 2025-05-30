@@ -86,7 +86,7 @@ yorum_gta5 <- steam_yorum_cek(app_id =  271590, oyun_adi = "Grand Theft Auto V  
 yorum_sims4 <- steam_yorum_cek(app_id =  1222670, oyun_adi = "The Sims 4  ")
 
 
-# T??m olumsuz ele??tirilen oyunlar??n yorumlar??n?? ??ekiyoruz
+# Tum olumsuz elestirilen oyunlarin yorumlarini cekiyoruz
 yorum_csgo <- steam_yorum_cek(app_id = 730, oyun_adi = "CSGO")
 yorum_dota2 <- steam_yorum_cek(app_id = 570, oyun_adi = "Dota 2")
 yorum_pubg <- steam_yorum_cek(app_id =  578080, oyun_adi = "PUBG")
@@ -100,7 +100,7 @@ yorum_callofduty<- steam_yorum_cek(app_id = 1938090, oyun_adi = "Call of Duty: M
 
 
 
-# Hepsini birle??tiriyoruz
+# Hepsini birlestiriyoruz
 hepsi_df <- bind_rows(
   yorum_lastofus,
   yorum_rdr2,
@@ -137,7 +137,7 @@ library(readxl)
 
 file_path <- file.choose()
 
-# Excel dosyas??n?? oku
+# Excel dosyasini oku
 yorumlar <- read_excel(file_path)
 
 head(yorumlar)
@@ -148,7 +148,7 @@ library(tidytext)
 library(dplyr)
 library(stringr)
 
-# Temizlik + kelime ayr????t??rma
+# Temizlik + kelime ayristirma
 
 
 
@@ -240,16 +240,16 @@ head(yorumlar_df_duygu, 10)
 library(dplyr)
 library(tidytext)
 
-# 1. Kelime s??tonun ad??n?? "word" gibi ayarla (gerekirse)
+# 1. Kelime sutunun adini "word" gibi ayarla (gerekirse)
 yorumlar_df_temiz <- yorumlar_df_temiz %>%
-  rename(word = kelime)  # E??er kelime s??tunun ad?? farkl??ysa
+  rename(word = kelime)  # Eger kelime sutunun adi farkliysa
 
 
 
 # AFINN sozlugu: -5 ile +5 arasi skor verir
 duygu_sozlugu <- get_sentiments("afinn")
 
-# n??tr,poz,neg
+# notr,poz,neg
 yorumlar_df_duygu <- yorumlar_df_temiz %>%
   left_join(get_sentiments("afinn"), by = "word") %>%
   mutate(value = ifelse(is.na(value), 0, value),
@@ -283,7 +283,7 @@ ggplot(duygu_sayim, aes(x = "", y = n, fill = duygu)) +
   geom_col(width = 1) +
   coord_polar(theta = "y") +
   labs(title = "Kelime Bazl?? Duygu Da????l??m?? (Pie Grafik)") +
-  theme_void() +  # Arka plan?? sadele??tir
+  theme_void() +  # Arka plani sadelestir
   scale_fill_brewer(palette = "Set1")
 
 
@@ -329,11 +329,11 @@ library(tidytext)
 library(dplyr)
 library(ggplot2)
 
-# Bing s??zl??????n?? al
+# Bing sozlugunu al
 bing_duygu <- get_sentiments("bing")
 
 yorum_duygu_df <- yorumlar_df_temiz %>%
-  inner_join(bing_duygu, by = "word")  # sadece e??le??en kelimeler al??n??r
+  inner_join(bing_duygu, by = "word")  # sadece eslesen kelimeler alinir.
 
 yorum_duygu_df %>%
   count(sentiment, word, sort = TRUE) %>%
@@ -349,7 +349,7 @@ yorum_duygu_df %>%
   scale_fill_manual(values = c("positive" = "green3", "negative" = "firebrick2")) +
   theme_minimal()
 
-#oyunlar baz??nda pozitif ve negatif yorum oranlar??n??
+#oyunlar bazinda pozitif ve negatif yorum oranlari
 
 yorum_duygu_df <- yorumlar_df_temiz %>%
   inner_join(get_sentiments("bing"), by = "word")
@@ -386,16 +386,16 @@ oyun_duygu_oranlari %>%
   theme_minimal()
 
 library(stringr)
-# Oyun ad?? s??tununu temizleme (bo??luklar?? ve ??zel karakterleri kald??rma)
+# Oyun adi sutununu temizleme (bosluklar ve ozel karakterleri kaldirma)
 yorumlar_df_temiz <- yorumlar_df_temiz %>%
-  mutate(oyun_adi = str_trim(oyun_adi),  # Ba??lang???? ve biti?? bo??luklar??n?? temizle
-         oyun_adi = str_replace_all(oyun_adi, "[^[:alnum:] ]", ""))  # ??zel karakterleri kald??r
+  mutate(oyun_adi = str_trim(oyun_adi),  # Baslangic ve bitis bosluklarini temizle
+         oyun_adi = str_replace_all(oyun_adi, "[^[:alnum:] ]", ""))  # ozel karakterleri kaldir
 
 # Duygu analizi k??sm?? 
 yorum_duygu_df <- yorumlar_df_temiz %>%
   inner_join(bing_duygu, by = "word")
 
-# Oyun baz??nda pozitif ve negatif yorumlar??n toplamlar??n?? al??yoruz
+# Oyun bazinda pozitif ve negatif yorumlarin toplamlarini aliyoruz
 oyun_duygu_oranlari <- yorum_duygu_df %>%
   group_by(oyun_adi, sentiment) %>%
   summarise(adet = n(), .groups = "drop") %>%
@@ -405,39 +405,39 @@ oyun_duygu_oranlari <- yorum_duygu_df %>%
          negatif_oran = round(negative / toplam, 3)) %>%
   arrange(desc(pozitif_oran))
 
-# Oyunlar?? pozitif oranlar??na g??re s??ralama
+# Oyunlari pozitif oranlarina gore siralama
 print(oyun_duygu_oranlari)
 
-# Pozitif yorum oran??na g??re g??rselle??tirme
+# Pozitif yorum oran??na gore gorsellestirme
 oyun_duygu_oranlari %>%
   ggplot(aes(x = reorder(oyun_adi, pozitif_oran), y = pozitif_oran)) +
   geom_col(fill = "pink") +
   coord_flip() +
-  labs(title = "Oyunlara Gore Pozitif Yorum Oran??",
-       x = "Oyun", y = "Pozitif Yorum Oran??") +
+  labs(title = "Oyunlara Gore Pozitif Yorum Orani",
+       x = "Oyun", y = "Pozitif Yorum Orani") +
   theme_minimal()
 
-# En ??ok olumlu/olumsuz yorum alan oyunlar?? s??ralama
+# En cok olumlu/olumsuz yorum alan oyunlari siralama
 en_populer_oyunlar <- oyun_duygu_oranlari %>%
   arrange(desc(pozitif_oran)) %>%
-  top_n(10, pozitif_oran)  # En ??ok pozitif yorum alan 10 oyun
+  top_n(10, pozitif_oran)  # En cok pozitif yorum alan 10 oyun
 
-# En ??ok olumsuz yorum alan oyunlar?? s??ralama
+# En cok olumsuz yorum alan oyunlari siralama
 en_populer_negatif_oyunlar <- oyun_duygu_oranlari %>%
   arrange(desc(negatif_oran)) %>%
-  top_n(10, negatif_oran)  # En ??ok negatif yorum alan 10 oyun
+  top_n(10, negatif_oran)  # En cok negatif yorum alan 10 oyun
 
-# Sonu??lar?? g??rselle??tirme
+# Sonuclari gorsellestirme
 ggplot(en_populer_oyunlar, aes(x = reorder(oyun_adi, pozitif_oran), y = pozitif_oran)) +
   geom_col(fill = "darkorange") +
   coord_flip() +
-  labs(title = "En Cok Olumlu Yorum Alan 10 Oyun", x = "Oyun", y = "Olumlu Yorum Say??s??") +
+  labs(title = "En Cok Olumlu Yorum Alan 10 Oyun", x = "Oyun", y = "Olumlu Yorum Sayisi") +
   theme_minimal()
 
 ggplot(en_populer_negatif_oyunlar, aes(x = reorder(oyun_adi, negatif_oran), y = negatif_oran)) +
   geom_col(fill = "firebrick2") +
   coord_flip() +
-  labs(title = "En Cok Olumsuz Yorum Alan 10 Oyun", x = "Oyun", y = "Olumsuz Yorum Say??s??") +
+  labs(title = "En Cok Olumsuz Yorum Alan 10 Oyun", x = "Oyun", y = "Olumsuz Yorum Sayisi") +
   theme_minimal()
 
 #oyun_adi              negative positive toplam pozitif_oran negatif_oran
@@ -455,12 +455,12 @@ install.packages("RColorBrewer")
 library(wordcloud)
 library(RColorBrewer)
 
-# En s??k ge??en kelimeleri say
+# En cok gecen kelimeleri say
 kelime_frekans <- yorumlar_df_temiz %>%
   count(word, sort = TRUE)
 
-# Kelime bulutu olu??tur
-set.seed(123)  # Rastgeleli??i sabitle
+# Kelime bulutu olusturalim
+set.seed(123)  # Rastgeleligi sabitle
 wordcloud(words = kelime_frekans$word,
           freq = kelime_frekans$n,
           min.freq = 5,
@@ -479,10 +479,10 @@ library(ggplot2)
 library(tidytext)
 library(textdata)
 
-# AFINN s??zl??????
+# AFINN sozlugu
 afinn <- get_sentiments("afinn")
 
-# Varsayal??m yorumlar_df_temiz veri setin var ve i??inde 'word' ve 'doc_id' s??tunlar?? var
+
 yorumlar_duygu <- yorumlar_df_temiz %>%
   left_join(afinn, by = "word") %>%
   mutate(duygu_skoru = ifelse(is.na(value), 0, value)) %>%
@@ -497,7 +497,7 @@ yorumlar_duygu <- yorumlar_df_temiz %>%
 # Grafik
 ggplot(yorumlar_duygu, aes(x = polarite, fill = polarite)) +
   geom_bar() +
-  labs(title = "Yorumlar??n Polarite Da????l??m??",
-       x = "Duygu T??r??",
-       y = "Yorum Say??s??") +
+  labs(title = "Yorumlarin Polarite Dagilimi",
+       x = "Duygu Turu",
+       y = "Yorum Sayisi") +
   theme_minimal()
