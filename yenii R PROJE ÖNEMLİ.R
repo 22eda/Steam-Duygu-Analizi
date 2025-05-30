@@ -20,10 +20,6 @@ library(tidyverse)        # Veri isleme ve gorsellestirme icin genis paket kolek
 
 
 
-
-
-api_key <- "FB5E61AD17191CA09E5BD2F2335EDFA8"
-
 steam_yorum_cek <- function(app_id, oyun_adi, max_yorum = 1000) {
   library(httr)
   library(jsonlite)
